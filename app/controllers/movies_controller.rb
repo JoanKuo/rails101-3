@@ -1,6 +1,7 @@
 class MoviesController < ApplicationController
   before_action :authenticate_user! , only: [:new, :create, :edit, :update, :destroy]
-  before_action
+  before_action :find_movie_and_check_permission
+
 
   def index
     @movies = Movie.all
@@ -26,8 +27,6 @@ class MoviesController < ApplicationController
   end
 
   def update
-    @movie = Movie.find(params[:id])
-
     if @movie.update(movie_params)
     redirect_to movies_path, notice: "Update Success"
     else
@@ -36,14 +35,9 @@ class MoviesController < ApplicationController
   end
 
   def edit
-    @movie = Movie.find(params[:id])
-    if current_user != @movie.user
-      redirect_to root_path, alert:"权限不足。"
-    end
   end
 
   def destroy
-    @movie = Movie.find(params[:id])
     @movie.destroy
     flash[:alert] = "Movie Deleted"
     redirect_to movies_path
