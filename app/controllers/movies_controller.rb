@@ -51,6 +51,13 @@ class MoviesController < ApplicationController
 
   private
 
+  def find_movie_and_check_permission
+    @movie = Movie.find(params[:id])
+    if current_user != @movie.user
+      redirect_to root_path, alert:"权限不足。"
+    end
+  end
+
   def movie_params
     params.require(:movie).permit(:name, :description)
   end
