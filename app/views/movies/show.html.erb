@@ -3,20 +3,15 @@
 
     <span class="pull-right">
       <% if current_user && current_user.is_member_of?(@movie) %>
+      <%= link_to("新增评论",new_movie_review_path(@movie), class: "btn btn-info pull-right")%>
       <label class="lable label-success"> 已收藏电影 </label>
       <%= link_to("取消收藏", quit_movie_path(@movie), method: :review, class: "btn btn-default") %>
       <% else %>
       <label class="label label-warning"> 未收藏该电影</label>
       <%= link_to("加入收藏", join_movie_path(@movie), method: :review, class: "btn btn-default") %>
-
       <% end %>
     </span>
 
-    <%= link_to("新增评论",new_movie_review_path(@movie), class: "btn btn-info pull-right")%>
-
-    <% if current_user && current_user == @movie.user %>
-    <%= link_to("编辑", edit_movie_path(@movie), class: "btn btn-primary pull-right")%>
-    <% end %>
   </div>
   <h2><%= @movie.name %></h2>
   <p><%= @movie.description %></p>
