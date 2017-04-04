@@ -1,5 +1,5 @@
 class ReviewsController < ApplicationController
-before_action :authenticate_user! , :only => [:new, :create]
+before_action :authenticate_user! , :only => [:new, :create， :edit, :update, :destroy]
 
   def new
     @movie = Movie.find(params[:movie_id])
