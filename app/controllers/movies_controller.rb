@@ -1,5 +1,5 @@
 class MoviesController < ApplicationController
-  before_action :authenticate_user! , only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_user! , only: [:new, :create, :edit, :update, :destroy, :join, :quit]
   before_action :find_movie_and_check_permission, only: [:edit, :update, :destroy]
 
 
@@ -43,6 +43,31 @@ class MoviesController < ApplicationController
     flash[:alert] = "Movie Deleted"
     redirect_to movies_path
   end
+
+  def join
+    @movie = Movie.find(params[:id])
+    if !current_user.is_member_of?(@movie)
+      current_user.join!(@movie)
+      flash[:notice] = "收藏本电影成功！"
+    else
+      flash[:warning] = "早已收藏本电影^^"
+    end
+    redirect_to movie_path(@movie)
+  end
+
+  def quit
+    @movie = Movie.find(params[:id])
+    if current_user.is_member_of?(@movie)
+      current_user.quit!(@movie)
+      flash[:notice] = "取消收藏成功！"
+    else
+      flash[:warning] = "并没有收藏，如何取消><"
+    end
+    redirect_to movie_path(@movie)
+  end
+
+
+
 
   private
 
