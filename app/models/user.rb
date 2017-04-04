@@ -9,4 +9,8 @@ class User < ApplicationRecord
 
          has_many :movie_collections
          has_many :participated_movies, :through => :movie_collections, :source => :movie
+
+  def is_member_of?(movie)
+    participated_movies.include?(movie)
+  end
 end
