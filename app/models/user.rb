@@ -15,12 +15,12 @@ class User < ApplicationRecord
   end
 
   def join!(movie)
-    participated_movies << group
+    participated_movies << movies
   end
 
   def quit!(movie)
     participated_movies.delete(movie)
   end
 
-  
+
 end
